@@ -1,0 +1,309 @@
+/* Global Styles */
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Header Styles */
+header {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Glow Effect Styles */
+.glow {
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #00b3ff, 0 0 30px #00b3ff, 0 0 40px #00b3ff, 0 0 50px #00b3ff, 0 0 60px #00b3ff, 0 0 70px #00b3ff;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+}
+
+/* Main Content Styles */
+main {
+    padding: 20px;
+}
+
+/* Social Links Styles */
+.social-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-item {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.social-icons a {
+    color: #fff !important; /* Ensure icon color is white */
+    font-size: 40px; /* Increase icon size */
+    text-decoration: none;
+    display: inline-flex; /* Use inline-flex for proper alignment */
+    align-items: center; /* Align items vertically */
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+    border: 2px solid; /* Border color will be set dynamically */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px 20px; /* Adjust padding */
+}
+
+.social-name {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+    color: #fff;
+}
+
+/* Play Button Styles */
+.play-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    transition: transform 0.2s;
+}
+
+.play-button:hover {
+    transform: scale(1.1);
+}
+
+.play-button i {
+    color: #fff;
+    font-size: 30px;
+}
+
+.playing i::before {
+    content: "\f04c";
+}
+
+/* Comment Section Styles */
+.comment-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Glitch Container Styles */
+.glitch-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#secrettext {
+    color: #ffffff;
+    opacity: 0.05; /* 1% visible */
+}
+
+/* Canvas Styles */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Social Icons Styles */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.social-item {
+    display: flex;
+    align-items: center;
+}
+
+.social-item a {
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.social-item a:hover {
+    transform: scale(0.9);
+    color: #fff;
+}
+
+.social-item i {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* Play Button Hover Styles */
+.play-button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: transparent;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.play-button:hover {
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+  .social-item i {
+    color: rgb(255, 0, 0); /* Change the color to your desired color */
+}
+
+.social-item:nth-child(2) i {
+    color: rgb(35, 174, 255); /* Change the color for the second social item */
+}
+
+.social-item:nth-child(3) i {
+    color: rgb(90, 19, 255); /* Change the color for the third social item */
+}
+
+.social-item:nth-child(4) i {
+    background: linear-gradient(to right, rgb(30, 27, 255), rgb(255, 15, 127)); /* Specify your gradient colors */
+    -webkit-background-clip: text; /* Apply gradient to text */
+    background-clip: text;
+    color: transparent; /* Hide the original icon color */
+}
+
+header h1 {
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -15px; /* Adjust the distance of the line from the text */
+    left: 50%; /* Center the line horizontally */
+    transform: translateX(-50%); /* Center the line under the text */
+    width: 250%; /* Adjust the width of the line */
+    height: 1.7px; /* Adjust the thickness of the line */
+    background-color: #ffffff; /* Specify your desired line color */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#white-square {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 5px solid white;
+    background-color: transparent;
+    cursor: move;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#white-square::before {
+    content: ":D";
+    font-size: 40px;
+}
+
+* {
+    user-select: none; /* Disable text selection for all elements */
+}
+
+#white-square {
+    user-select: auto; /* Allow text selection for the white square */
+}

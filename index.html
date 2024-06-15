@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markerunga</title>
+     <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="author" content="Markerunga">
+    <meta name="description" content="hi!">
+    <meta name="keywords" content="Markerunga, code, youtube, tiktok, twitter, social, contacts, elerhetosegek">
+    <style>
+        #avatar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            transition: transform 0.35s;
+            cursor: pointer;
+        }
+        #avatar:active {
+            transform: scale(0.35);
+        }
+        #message-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 9999;
+            display: none;
+            border: 4px solid white;
+            width: 60%;
+            transition: transform 0.3s, opacity 0.5s; /* Add transition for tweening and fading */
+        }
+        #message-popup.show {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1; /* Set initial opacity to 1 */
+        }
+        #message-popup.hide {
+            opacity: 0; /* Set opacity to 0 to fade out */
+        }
+        #message-popup h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        #message-popup p {
+            font-size: 24px;
+        }
+        #avatar2 {
+            position: fixed;
+            bottom: 20px;
+            right: 100px;
+            width: 45px;
+            height: 45px;
+            transition: transform 0.35s;
+        }
+        #avatar2:active {
+            transform: scale(0.35);
+        }
+        #message-popup2 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 9999;
+            display: none;
+            border: 4px solid white;
+            width: 60%;
+            transition: transform 0.3s, opacity 0.5s;
+        }
+        #message-popup2.show {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        #message-popup2.hide {
+            opacity: 0;
+        }
+        #message-popup2 h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        #message-popup2 p {
+            font-size: 24px;
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- Fejléc -->
+    <header>
+        <h1 class="glow">Markerunga</h1>
+    </header>
+    <div id="particles-js"></div>
+    <!-- Fő tartalom -->
+    <main>
+        <!-- Közösségi linkek szakasz -->
+        <section class="social-links">
+            <h2>Elérhetőségeim</h2>
+            <div class="social-icons">
+                <div class="social-item">
+                    <a href="https://www.youtube.com/@markerunga" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        <span class="social-name">YouTube</span>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <a href="https://www.twitter.com/markerunga" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                        <span class="social-name">Twitter</span>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <a href="https://www.twitch.tv/markerunga" target="_blank">
+                        <i class="fab fa-twitch"></i>
+                        <span class="social-name">Twitch</span>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <a href="https://www.tiktok.com/@markkelemen9" target="_blank">
+                        <i class="fab fa-tiktok"></i>
+                        <span class="social-name">TikTok</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audiolejátszó -->
+        <div class="play-button" onclick="toggleAudioPlayer()">
+            <i class="fas fa-play"></i>
+        </div>
+        <audio id="audio-player" src="music/muzsika.mp3" autoplay></audio>
+
+        <!-- Vászon -->
+        <canvas id="canvas"></canvas>
+    </main>
+    
+    <!-- Lábléc -->
+    <footer>
+        <p id="secrettext">"Írd be, hogy "snake" a billentyűzeteden!" - Wysteria</p>
+        <p>&copy; 2024 Markerunga. Minden jog fenntartva.</p>
+    </footer>
+
+    <!-- Avatar Image -->
+    <img id="avatar" src="wysteria.png" alt="Wysteria">
+
+    <!-- Second Avatar Image -->
+    <img id="avatar2" src="markerunga.png" alt="Markerunga">
+
+    <!-- Message Popup -->
+    <div id="message-popup">
+        <h2>Wysteria | Közreműködő</h2>
+        <p>Gondolatokkal, UI tervezéssel, HTML és JS kódokkal segített!</p>
+    </div>
+
+    <!-- Second Message Popup -->
+    <div id="message-popup2">
+        <h2>Markerunga | Létrehozó</h2>
+        <p>A weboldal nagy részének HTML, CSS és JS kódját írta.</p>
+    </div>
+
+    <!-- Szkriptek -->
+    <script src="snakegameopen.js"></script>
+    <script src="background-music.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="credits.js"></script>
+
+    <script>
+        document.getElementById('avatar').addEventListener('click', function() {
+            const messagePopup = document.getElementById('message-popup');
+            messagePopup.classList.add('show');
+            setTimeout(function() {
+                messagePopup.classList.add('hide');
+                setTimeout(function() {
+                    messagePopup.classList.remove('show', 'hide');
+                }, 500); // 500ms to fade out
+            }, 4500); // 4.5 seconds
+        });
+        document.getElementById('avatar2').addEventListener('click', function() {
+            const messagePopup2 = document.getElementById('message-popup2');
+            messagePopup2.classList.add('show');
+            setTimeout(function() {
+                messagePopup2.classList.add('hide');
+                setTimeout(function() {
+                    messagePopup2.classList.remove('show', 'hide');
+                }, 500); // 500ms to fade out
+            }, 4500); // 4.5 seconds
+        });
+
+        
+    </script>
+</body>
+</html>
+ 
