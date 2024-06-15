@@ -1,1 +1,1 @@
-Official code for Markerunga's website
+Official code for hosting Markerunga's website
