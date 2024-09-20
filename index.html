@@ -182,29 +182,48 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="scripts/credits.js"></script>
 
+    <style>
+        .popup {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            visibility: hidden;
+        }
+    
+        .popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    
+        .popup.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+    
     <script>
         document.getElementById('avatar').addEventListener('click', function() {
             const messagePopup = document.getElementById('message-popup');
             messagePopup.classList.add('show');
+    
             setTimeout(function() {
                 messagePopup.classList.add('hide');
                 setTimeout(function() {
                     messagePopup.classList.remove('show', 'hide');
-                }, 500); // 500ms to fade out
-            }, 4500); // 4.5 seconds
+                }, 500);
+            }, 4500);
         });
+    
         document.getElementById('avatar2').addEventListener('click', function() {
             const messagePopup2 = document.getElementById('message-popup2');
             messagePopup2.classList.add('show');
+    
             setTimeout(function() {
                 messagePopup2.classList.add('hide');
                 setTimeout(function() {
                     messagePopup2.classList.remove('show', 'hide');
-                }, 500); // 500ms to fade out
-            }, 4500); // 4.5 seconds
+                }, 500);
+            }, 4500);
         });
-
-        
     </script>
 </body>
 </html>
