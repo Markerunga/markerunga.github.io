@@ -13,7 +13,7 @@ body, html {
 
 /* Header Styles */
 header {
-    background-color: #000;
+    background-color: transparent;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -307,3 +307,4 @@ body {
 #white-square {
     user-select: auto; /* Allow text selection for the white square */
 }
+
