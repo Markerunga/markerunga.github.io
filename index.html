@@ -13,6 +13,8 @@
     <meta name="keywords" content="Markerunga, code, youtube, tiktok, twitter, social, contacts, elerhetosegek">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="9oVuxbRXGQVP4ov-brb-fjZH2IByo4TnH6IYgtMQa6c" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <style>
         #avatar {
@@ -100,11 +102,20 @@
         #message-popup2 p {
             font-size: 24px;
         }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
     </style>
-    
 </head>
 <body>
-    
+    <div id="particles-js"></div>
+
     <header>
         <h1 class="glow">Markerunga</h1>
     </header>
@@ -181,32 +192,126 @@
     <script src="scripts/snakegameopen.js"></script>
     <script src="scripts/background-music.js"></script>
     <script src="scripts/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="scripts/credits.js"></script>
 
-    <style>
-        .popup {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            visibility: hidden;
-        }
-    
-        .popup.show {
-            opacity: 1;
-            visibility: visible;
-        }
-    
-        .popup.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-    </style>
-    
     <script>
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Your existing avatar click event listeners
         document.getElementById('avatar').addEventListener('click', function() {
             const messagePopup = document.getElementById('message-popup');
             messagePopup.classList.add('show');
-    
+
             setTimeout(function() {
                 messagePopup.classList.add('hide');
                 setTimeout(function() {
@@ -214,11 +319,11 @@
                 }, 500);
             }, 4500);
         });
-    
+
         document.getElementById('avatar2').addEventListener('click', function() {
             const messagePopup2 = document.getElementById('message-popup2');
             messagePopup2.classList.add('show');
-    
+
             setTimeout(function() {
                 messagePopup2.classList.add('hide');
                 setTimeout(function() {
