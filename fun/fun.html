@@ -2,253 +2,185 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rendszerdiagnosztika</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
-  --bg:#0b0f14;--panel:#121824;--accent:#3aa0ff;
-  --danger:#ff5b5b;--text:#e7ecf3;--muted:#9aa4b2;--ok:#46d39a
-}
-*{box-sizing:border-box}
 body{
-  margin:0;height:100vh;overflow:hidden;
-  background:radial-gradient(1200px 800px at 20% 10%, #12203a, var(--bg));
-  color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial
+  margin:0;
+  font-family:system-ui,Segoe UI,Arial;
+  background:#0b0f14;
+  color:#e6ebf2;
 }
-.container{max-width:980px;margin:0 auto;padding:24px}
-.card{
-  background:linear-gradient(180deg,#141b2b,var(--panel));
-  border:1px solid #1f2a44;border-radius:14px;
-  box-shadow:0 30px 80px rgba(0,0,0,.45)
+.panel{
+  max-width:900px;
+  margin:40px auto;
+  background:#121826;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
 }
-.header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #1f2a44}
-.badge{padding:6px 10px;border-radius:999px;background:#1b2742;color:var(--muted);font-size:12px}
-.safe{background:#14362a;color:#9af0c7}
-.section{padding:20px}
-.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-h1{margin:0;font-size:28px}
-h2{margin:0 0 10px 0;font-size:18px}
-p{color:var(--muted);line-height:1.6}
-.controls label{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
-.controls input[type=range],
-.controls input[type=number],
-.controls input[type=text]{width:160px}
-.toggle{gap:8px}
+h1{margin-top:0}
 button{
-  border:0;border-radius:12px;padding:14px 20px;
-  cursor:pointer;font-weight:600
+  padding:14px 20px;
+  border-radius:12px;
+  border:0;
+  font-weight:600;
+  cursor:pointer;
 }
-.primary{background:linear-gradient(135deg,#4aa8ff,#2c6cff);color:#fff}
-.secondary{background:#121a2e;color:#c9d4e5;border:1px solid #2b3a66}
-.footer{display:flex;justify-content:space-between;padding:16px 20px;border-top:1px solid #1f2a44}
-
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.kpi .box{background:#0f1629;border:1px solid #1f2a44;border-radius:12px;padding:14px}
-.kpi .val{font-size:22px;font-weight:700}
-.progress{height:10px;background:#0e1526;border-radius:999px;overflow:hidden}
-.progress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--ok),var(--accent))}
-
-.overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
-.overlay .panel{background:#0b1224;border:1px solid #1f2a44;border-radius:16px;padding:24px}
-.countdown{font-size:64px;font-weight:800;color:var(--accent);text-align:center}
-
-.toast{
-  position:fixed;right:20px;bottom:20px;
-  background:#0e1526;border:1px solid #2a3a66;
-  border-radius:12px;padding:14px 16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4)
+.start{background:#3a8cff;color:white}
+.opt{margin:10px 0}
+label{display:flex;gap:10px;align-items:center}
+.overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.7);
+  z-index:10;
 }
-
-#bsod{
-  display:none;position:fixed;inset:0;
-  background:#0a5bd3;color:#eaf2ff;z-index:100
+.count{
+  font-size:72px;
+  font-weight:800;
 }
-#bsod .wrap{padding:48px}
-#bsod h1{font-size:72px;margin:0}
 </style>
 </head>
 
 <body>
-<div class="container">
-  <div class="card">
-    <div class="header">
-      <h1>Rendszerdiagnosztika</h1>
-      <span class="badge">Szimuláció</span>
-      <span class="badge safe" id="safeBadge">SAFE MODE</span>
-    </div>
 
-    <div class="section grid">
-      <div>
-        <h2>Leírás</h2>
-        <p>
-          Ez egy rendszerterhelési szimulátor.
-          SAFE MODE esetén nincs valódi lapnyitás.
-          SAFE MODE kikapcsolásával a rendszer valódi új böngészőlapokat nyit.
-        </p>
+<div class="panel">
+  <h1>Rendszerterhelési szimuláció</h1>
 
-        <div class="kpi">
-          <div class="box"><div class="val" id="kTabs">0</div>Lapok</div>
-          <div class="box"><div class="val" id="kLoad">0%</div>Terhelés</div>
-          <div class="box"><div class="val" id="kTime">0s</div>Idő</div>
-        </div>
-
-        <div class="progress" style="margin-top:14px">
-          <span id="bar"></span>
-        </div>
-      </div>
-
-      <div class="controls">
-        <h2>Beállítások</h2>
-
-        <label>Lapok száma
-          <input type="number" id="tabs" value="1" min="1" max="10">
-        </label>
-
-        <label>Induló sebesség (ms)
-          <input type="number" id="startSpeed" value="1200">
-        </label>
-
-        <label>Cél sebesség (ms)
-          <input type="number" id="endSpeed" value="200">
-        </label>
-
-        <label>Megnyitandó URL
-          <input type="text" id="targetUrl" placeholder="üres = önmaga">
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="safeMode" checked> SAFE MODE
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="extremeMode"> Extrém mód
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="fullscreen"> Teljes képernyő
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="alerts" checked> Rendszerüzenetek
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="bsodToggle"> Kamu hiba képernyő
-        </label>
-      </div>
-    </div>
-
-    <div class="footer">
-      <button class="secondary" onclick="showHelp()">Kilépés</button>
-      <button class="primary" onclick="startCountdown()">Indítás</button>
-    </div>
+  <div class="opt">
+    <label><input type="checkbox" id="safe" checked> SAFE MODE</label>
   </div>
+
+  <div class="opt">
+    <label><input type="checkbox" id="fullscreen" checked> Teljes képernyő</label>
+  </div>
+
+  <div class="opt">
+    <label>Lapok ciklusonként:
+      <input type="number" id="tabs" value="1" min="1" max="10">
+    </label>
+  </div>
+
+  <div class="opt">
+    <label>Kezdő sebesség (ms):
+      <input type="number" id="speed" value="1000">
+    </label>
+  </div>
+
+  <button class="start" onclick="countdown()">Indítás</button>
 </div>
 
 <div class="overlay" id="cd">
-  <div class="panel">
-    <div class="countdown" id="cdNum">5</div>
-    <p style="text-align:center;color:var(--muted)">Indítás folyamatban…</p>
-  </div>
-</div>
-
-<div id="bsod">
-  <div class="wrap">
-    <h1>:(</h1>
-    <p>Hiba kód: BROWSER_OVERLOAD</p>
-  </div>
+  <div class="count" id="num">5</div>
 </div>
 
 <script>
-let opened=0, secs=0, active=false;
-let currentSpeed, endSpeed, loopActive=false;
+let running=false;
+let speed;
+let opened=0;
 
-function startCountdown(){
-  document.getElementById("cd").style.display="flex";
-  let n=5; const el=document.getElementById("cdNum"); el.textContent=n;
+function countdown(){
+  let n=5;
+  cd.style.display="flex";
+  num.textContent=n;
   const t=setInterval(()=>{
-    n--; el.textContent=n;
+    n--;
+    num.textContent=n;
     if(n===0){
       clearInterval(t);
-      document.getElementById("cd").style.display="none";
+      cd.style.display="none";
       start();
     }
   },1000);
 }
 
-function openTabsLoop(tabs,url,extreme){
-  if(!loopActive) return;
-
-  for(let i=0;i<tabs;i++){
-    const w=window.open(url,"_blank");
-    if(w) w.document.title="Rendszerfolyamat "+(++opened);
-  }
-
-  if(currentSpeed>endSpeed){
-    currentSpeed-= extreme ? 60 : 30;
-  }
-
-  setTimeout(()=>openTabsLoop(tabs,url,extreme),currentSpeed);
-}
-
 function start(){
-  active=true;
-  const safe=document.getElementById("safeMode").checked;
-  document.getElementById("safeBadge").style.display=safe?"inline-block":"none";
+  running=true;
+  speed=+speedInput.value || 1000;
 
-  const tabs=+document.getElementById("tabs").value;
-  currentSpeed=+document.getElementById("startSpeed").value;
-  endSpeed=+document.getElementById("endSpeed").value;
-  const extreme=document.getElementById("extremeMode").checked;
-
-  let url=document.getElementById("targetUrl").value.trim();
-  if(url==="") url=location.href;
-
-  if(!safe && document.getElementById("fullscreen").checked){
-    document.documentElement.requestFullscreen().catch(()=>{});
+  if(fullscreen.checked){
+    document.documentElement.requestFullscreen?.().catch(()=>{});
   }
 
-  loopActive=true;
-
-  setInterval(()=>{
-    secs++;
-    const load=Math.min(100,Math.floor(opened/2));
-    kTabs.textContent=opened;
-    kLoad.textContent=load+"%";
-    kTime.textContent=secs+"s";
-    bar.style.width=load+"%";
-  },1000);
-
-  if(document.getElementById("alerts").checked){
-    setInterval(()=>{
-      const t=document.createElement("div");
-      t.className="toast";
-      t.textContent="Az alkalmazás nem válaszol.";
-      document.body.appendChild(t);
-      setTimeout(()=>t.remove(),2500);
-    },2200);
-  }
-
-  if(!safe){
-    openTabsLoop(tabs,url,extreme);
-  }
-
-  if(!safe && document.getElementById("bsodToggle").checked){
-    setTimeout(()=>bsod.style.display="block",9000);
+  if(!safe.checked){
+    loop();
   }
 }
 
-function showHelp(){
-  alert("Kilépés:\n• ESC (teljes képernyő)\n• Böngésző bezárása\n• SAFE MODE ajánlott bemutatóhoz");
+function loop(){
+  if(!running) return;
+
+  for(let i=0;i<tabs.value;i++){
+    const w=window.open("about:blank","_blank");
+    if(w){
+      w.document.open();
+      w.document.write(bsodHTML());
+      w.document.close();
+      opened++;
+    }
+  }
+
+  setTimeout(loop,speed);
 }
 
-window.onbeforeunload=function(){
-  if(active && !safeMode.checked){
-    return "A szimuláció fut. Biztosan bezárod?";
-  }
-};
+function bsodHTML(){
+return `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>System Error</title>
+<style>
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:#0a5bd3;
+  color:#eaf2ff;
+  font-family:Segoe UI,system-ui;
+}
+.wrap{
+  padding:60px;
+}
+h1{
+  font-size:96px;
+  margin:0 0 20px 0;
+}
+p{
+  font-size:20px;
+  opacity:.9;
+}
+.small{
+  margin-top:40px;
+  font-size:14px;
+  opacity:.8;
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>:(</h1>
+    <p>A böngésző problémába ütközött és leállt.</p>
+    <p>Hibakód: BROWSER_OVERLOAD</p>
+    <div class="small">
+      Ha ez az első alkalom, indítsd újra az alkalmazást.
+    </div>
+  </div>
+</body>
+</html>
+`;
+}
+
+const speedInput=document.getElementById("speed");
+const tabs=document.getElementById("tabs");
+const safe=document.getElementById("safe");
+const fullscreen=document.getElementById("fullscreen");
 </script>
+
 </body>
 </html>
