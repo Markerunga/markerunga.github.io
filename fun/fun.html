@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rendszerdiagnosztika</title>
+
+<style>
+:root{
+  --bg:#0b0f14;--panel:#121824;--accent:#3aa0ff;--danger:#ff5b5b;
+  --text:#e7ecf3;--muted:#9aa4b2;--ok:#46d39a
+}
+*{box-sizing:border-box}
+body{
+  margin:0;height:100vh;overflow:hidden;color:var(--text);
+  background:radial-gradient(1200px 800px at 20% 10%, #12203a, var(--bg));
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+.container{max-width:980px;margin:0 auto;padding:24px}
+.card{
+  background:linear-gradient(180deg,#141b2b,var(--panel));
+  border:1px solid #1f2a44;border-radius:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,.45)
+}
+.header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #1f2a44}
+.badge{padding:6px 10px;border-radius:999px;background:#1b2742;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.section{padding:20px}
+h1{font-size:28px;margin:0}
+h2{font-size:18px;margin:0 0 10px}
+p{color:var(--muted);line-height:1.6}
+.controls label{display:flex;align-items:center;justify-content:space-between;margin:10px 0;color:#c9d4e5}
+.controls input[type=range],.controls input[type=number]{width:160px}
+.toggle{display:flex;align-items:center;gap:8px}
+button.primary{
+  border:0;border-radius:12px;padding:14px 20px;cursor:pointer;font-weight:600;
+  background:linear-gradient(135deg,#4aa8ff,#2c6cff);color:#fff
+}
+button.secondary{
+  border:1px solid #2b3a66;border-radius:12px;padding:12px 16px;cursor:pointer;
+  background:#121a2e;color:#c9d4e5
+}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-top:1px solid #1f2a44}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi .box{background:#0f1629;border:1px solid #1f2a44;border-radius:12px;padding:14px}
+.kpi .val{font-size:22px;font-weight:700}
+.progress{height:10px;background:#0e1526;border-radius:999px;overflow:hidden}
+.progress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--ok),var(--accent))}
+.overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
+.overlay .panel{background:#0b1224;border:1px solid #1f2a44;border-radius:16px;padding:24px;max-width:560px;width:92%}
+.countdown{font-size:64px;font-weight:800;color:var(--accent);text-align:center}
+.toast{
+  position:fixed;right:20px;bottom:20px;background:#0e1526;border:1px solid #2a3a66;
+  border-radius:12px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.4)
+}
+#bsod{display:none;position:fixed;inset:0;background:#0a5bd3;color:#eaf2ff;z-index:100}
+#bsod .wrap{padding:48px}
+#bsod h1{font-size:72px;margin:0 0 16px}
+#bsod p{font-size:18px;max-width:820px;color:#eaf2ff}
+.safe-pill{
+  padding:6px 10px;border-radius:999px;background:#14362a;color:#9af0c7;font-size:12px
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <h1>Rendszerdiagnosztika</h1>
+      <span class="badge">Szimuláció</span>
+      <span class="safe-pill" id="safeBadge" style="display:none">SAFE MODE</span>
+    </div>
+
+    <div class="section grid">
+      <div>
+        <h2>Leírás</h2>
+        <p>
+          A rendszerterhelési szimuláció két módban futtatható.
+          <strong>SAFE MODE</strong> esetén nincs lapnyitás, nincs kényszerített
+          teljes képernyő és nincs bezárásvédelem – csak vizuális bemutató.
+        </p>
+
+        <div class="kpi">
+          <div class="box"><div class="val" id="kTabs">0</div><div class="muted">Megnyitott lap</div></div>
+          <div class="box"><div class="val" id="kLoad">0%</div><div class="muted">Terhelés</div></div>
+          <div class="box"><div class="val" id="kTime">0s</div><div class="muted">Futási idő</div></div>
+        </div>
+
+        <div class="progress" style="margin-top:14px"><span id="bar"></span></div>
+      </div>
+
+      <div class="controls">
+        <h2>Beállítások</h2>
+        <label>Lapnyitás sebessége (ms)
+          <input type="range" id="speed" min="150" max="2000" value="600">
+        </label>
+        <label>Lapok száma ciklusonként
+          <input type="number" id="tabs" min="1" max="10" value="1">
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="safeMode" checked> SAFE MODE (ajánlott)
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="sound" checked> Hang
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="fullscreen"> Teljes képernyő
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="alerts" checked> Rendszerüzenetek
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="bsodToggle"> Kamu hiba képernyő
+        </label>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button class="secondary" onclick="showHelp()">Kilépési útmutató</button>
+      <button class="primary" onclick="startCountdown()">Indítás</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="cd">
+  <div class="panel">
+    <div class="countdown" id="cdNum">5</div>
+    <p style="text-align:center;color:var(--muted)">A szimuláció indul…</p>
+  </div>
+</div>
+
+<div id="bsod">
+  <div class="wrap">
+    <h1>:(</h1>
+    <p>Hiba kód: BROWSER_OVERLOAD</p>
+  </div>
+</div>
+
+<audio id="snd" loop>
+  <source src="https://www.myinstants.com/media/sounds/windows-error.mp3">
+</audio>
+
+<script>
+let active=false, opened=0, secs=0;
+let timerTabs, timerStats, timerToast;
+
+function startCountdown(){
+  document.getElementById('cd').style.display='flex';
+  let n=5; const el=document.getElementById('cdNum'); el.textContent=n;
+  const t=setInterval(()=>{
+    n--; el.textContent=n;
+    if(n===0){clearInterval(t);document.getElementById('cd').style.display='none'; start();}
+  },1000);
+}
+
+function start(){
+  active=true;
+  const safe=document.getElementById('safeMode').checked;
+  document.getElementById('safeBadge').style.display = safe ? 'inline-block':'none';
+
+  const speed=+document.getElementById('speed').value;
+  const tabs=+document.getElementById('tabs').value;
+
+  if(document.getElementById('sound').checked){
+    document.getElementById('snd').play().catch(()=>{});
+  }
+  if(!safe && document.getElementById('fullscreen').checked){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
+
+  // Statisztikák (SAFE MODE-ban is fut)
+  timerStats=setInterval(()=>{
+    secs++;
+    const load=Math.min(100, Math.floor((opened+secs)/3));
+    document.getElementById('kTabs').textContent=opened;
+    document.getElementById('kLoad').textContent=load+'%';
+    document.getElementById('kTime').textContent=secs+'s';
+    document.getElementById('bar').style.width=load+'%';
+  },1000);
+
+  // Lapnyitás csak normál módban
+  if(!safe){
+    timerTabs=setInterval(()=>{
+      for(let i=0;i<tabs;i++){
+        window.open(location.href,'_blank');
+        opened++;
+      }
+    }, speed);
+  }
+
+  if(document.getElementById('alerts').checked){
+    timerToast=setInterval(()=>{
+      const t=document.createElement('div');
+      t.className='toast';
+      t.textContent='Az alkalmazás nem válaszol.';
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(),2600);
+    },2200);
+  }
+
+  if(!safe && document.getElementById('bsodToggle').checked){
+    setTimeout(()=>{document.getElementById('bsod').style.display='block';},9000);
+  }
+}
+
+function showHelp(){
+  alert(
+    'SAFE MODE: biztonságos bemutató, bezárható.\n' +
+    'Normál mód: erősebb hatások.\n\n' +
+    'Kilépés:\n• ESC (ha van teljes képernyő)\n• Böngésző bezárása\n• Inkognitó mód ajánlott'
+  );
+}
+
+window.onbeforeunload=function(){
+  if(active && !document.getElementById('safeMode').checked){
+    return 'A szimuláció fut. Biztosan bezárod?';
+  }
+};
+history.pushState(null,'',location.href);
+window.onpopstate=function(){history.pushState(null,'',location.href);};
+</script>
+</body>
+</html>
